@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Camerry Partner Portal – Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --berry:#c8175d; --berry-dk:#9c0f47; --berry-lt:#fde7f0;
+  --mint:#14a38b; --mint-lt:#e3f7f3;
+  --cream:#fff8f1; --ink:#2b1a22; --muted:#7a6670; --line:#eedfe5;
+  --card:#ffffff; --shadow:0 10px 30px rgba(156,15,71,.08);
+  --radius:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,sans-serif;background:var(--cream);color:var(--ink);line-height:1.55}
+h1,h2,h3,h4,.brand{font-family:Fredoka,Inter,sans-serif}
+a{color:inherit;text-decoration:none}
+.container{max-width:1120px;margin:0 auto;padding:0 20px}
+
+/* Header */
+header{position:sticky;top:0;z-index:50;background:rgba(255,248,241,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+.brand{font-size:28px;font-weight:700;color:var(--berry);display:flex;align-items:center;gap:8px}
+.brand .dot{width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ff8fb8,var(--berry));box-shadow:inset -3px -3px 0 rgba(0,0,0,.12)}
+.brand small{font-family:Inter;font-size:11px;color:var(--muted);font-weight:500;display:block;margin-top:-6px;letter-spacing:.5px}
+.navlinks{display:flex;gap:6px}
+.navlinks a{padding:9px 16px;border-radius:999px;font-weight:500;font-size:15px;color:var(--muted);transition:.2s}
+.navlinks a:hover{color:var(--berry);background:var(--berry-lt)}
+.navlinks a.active{background:var(--berry);color:#fff}
+.burger{display:none;background:none;border:0;font-size:26px;cursor:pointer;color:var(--berry)}
+
+/* Pages */
+.page{display:none;animation:fade .35s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* Hero */
+.hero{padding:70px 0 50px;position:relative;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.tag{display:inline-block;background:var(--mint-lt);color:var(--mint);font-weight:600;font-size:13px;padding:6px 14px;border-radius:999px;margin-bottom:16px}
+.hero h1{font-size:52px;line-height:1.1;margin-bottom:16px}
+.hero h1 span{color:var(--berry)}
+.hero p{font-size:18px;color:var(--muted);max-width:520px;margin-bottom:28px}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;cursor:pointer;font:600 15px Inter;padding:13px 24px;border-radius:999px;transition:.2s}
+.btn-primary{background:var(--berry);color:#fff;box-shadow:0 6px 18px rgba(200,23,93,.3)}
+.btn-primary:hover{background:var(--berry-dk);transform:translateY(-1px)}
+.btn-ghost{background:#fff;color:var(--berry);border:1.5px solid var(--berry)}
+.btn-ghost:hover{background:var(--berry-lt)}
+.btn-row{display:flex;gap:12px;flex-wrap:wrap}
+.scoops{position:relative;height:360px}
+.scoop{position:absolute;border-radius:50%;box-shadow:inset -12px -14px 0 rgba(0,0,0,.08)}
+.s1{width:190px;height:190px;background:#ffb3cf;left:60px;top:40px}
+.s2{width:160px;height:160px;background:#ffe3a3;left:200px;top:90px}
+.s3{width:140px;height:140px;background:#b9ecdf;left:120px;top:160px}
+.cone{position:absolute;left:150px;top:250px;width:0;height:0;border-left:70px solid transparent;border-right:70px solid transparent;border-top:110px solid #e0a464}
+.sprk{position:absolute;width:10px;height:22px;border-radius:6px}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:40px}
+.stat{background:#fff;border-radius:var(--radius);padding:18px;text-align:center;box-shadow:var(--shadow)}
+.stat b{font-family:Fredoka;font-size:28px;color:var(--berry);display:block}
+.stat span{font-size:13px;color:var(--muted)}
+
+section.block{padding:50px 0}
+.section-title{text-align:center;margin-bottom:36px}
+.section-title h2{font-size:34px}
+.section-title p{color:var(--muted)}
+.cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.svc{background:#fff;border-radius:22px;padding:30px;box-shadow:var(--shadow);transition:.25s;cursor:pointer;border:2px solid transparent}
+.svc:hover{transform:translateY(-5px);border-color:var(--berry-lt)}
+.svc .ic{width:58px;height:58px;border-radius:16px;display:grid;place-items:center;font-size:28px;margin-bottom:18px}
+.svc h3{font-size:22px;margin-bottom:8px}
+.svc p{color:var(--muted);font-size:15px;margin-bottom:16px}
+.svc .go{color:var(--berry);font-weight:600}
+.products{display:grid;grid-template-columns:repeat(7,1fr);gap:12px}
+.prod{background:#fff;border-radius:14px;padding:18px 8px;text-align:center;font-weight:600;font-size:14px;box-shadow:var(--shadow)}
+.prod div{font-size:30px;margin-bottom:6px}
+
+/* Page header */
+.phead{background:linear-gradient(135deg,var(--berry),#e8478a);color:#fff;padding:44px 0;border-radius:0 0 32px 32px}
+.phead h1{font-size:36px}
+.phead p{opacity:.9}
+
+/* Forms */
+.panel{background:#fff;border-radius:22px;box-shadow:var(--shadow);padding:34px;margin:-30px auto 50px;max-width:900px;position:relative}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.full{grid-column:1/-1}
+.field label{display:block;font-weight:600;font-size:14px;margin-bottom:6px}
+.field label .req{color:var(--berry)}
+.field input,.field select,.field textarea{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;font:15px Inter;background:#fffdfc;transition:.2s;color:var(--ink)}
+.field input:focus,.field select:focus,.field textarea:focus{outline:0;border-color:var(--berry);box-shadow:0 0 0 4px var(--berry-lt)}
+.field.err input,.field.err select,.field.err textarea{border-color:#e53935}
+.field .hint{font-size:12px;color:var(--muted);margin-top:4px}
+.field .emsg{font-size:12px;color:#e53935;margin-top:4px;display:none}
+.field.err .emsg{display:block}
+.h-sub{font-size:20px;margin:6px 0 16px;display:flex;align-items:center;gap:8px}
+.h-sub:not(:first-child){margin-top:28px}
+hr.sep{border:0;border-top:1px dashed var(--line);margin:26px 0}
+
+/* Stepper */
+.stepper{display:flex;justify-content:space-between;margin-bottom:34px;position:relative}
+.stepper::before{content:"";position:absolute;top:19px;left:30px;right:30px;height:3px;background:var(--line)}
+.stepper .bar{position:absolute;top:19px;left:30px;height:3px;background:var(--berry);transition:.4s;width:0}
+.st{position:relative;z-index:1;text-align:center;flex:1}
+.st .n{width:40px;height:40px;border-radius:50%;background:#fff;border:3px solid var(--line);display:grid;place-items:center;margin:0 auto 6px;font-weight:700;color:var(--muted);transition:.3s}
+.st span{font-size:12px;color:var(--muted);font-weight:500}
+.st.on .n{border-color:var(--berry);color:var(--berry)}
+.st.done .n{background:var(--berry);border-color:var(--berry);color:#fff}
+.st.on span,.st.done span{color:var(--ink);font-weight:600}
+.wstep{display:none}
+.wstep.active{display:block;animation:fade .3s}
+.wnav{display:flex;justify-content:space-between;margin-top:30px;padding-top:22px;border-top:1px solid var(--line)}
+
+/* Upload */
+.upload{border:2px dashed #e7c3d3;border-radius:14px;padding:18px;text-align:center;cursor:pointer;background:#fffafc;transition:.2s;position:relative}
+.upload:hover,.upload.drag{border-color:var(--berry);background:var(--berry-lt)}
+.upload input{display:none}
+.upload .ui{font-size:26px}
+.upload .ut{font-size:13px;color:var(--muted)}
+.upload .ut b{color:var(--berry)}
+.upload.has{border-style:solid;border-color:var(--mint);background:var(--mint-lt)}
+.flist{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.fchip{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:6px 10px;font-size:13px;max-width:100%}
+.fchip img{width:34px;height:34px;object-fit:cover;border-radius:6px}
+.fchip .x{cursor:pointer;color:var(--berry);font-weight:700;margin-left:4px}
+
+/* Choice chips */
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0}
+.chip label{display:inline-block;padding:10px 18px;border:1.5px solid var(--line);border-radius:999px;cursor:pointer;font-size:14px;font-weight:500;background:#fff;transition:.2s}
+.chip input:checked+label{background:var(--berry);border-color:var(--berry);color:#fff}
+
+/* Freezer cards */
+.fz{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.fzc{border:2px solid var(--line);border-radius:16px;padding:18px;cursor:pointer;transition:.2s;position:relative;background:#fff}
+.fzc:hover{border-color:#f1a9c6}
+.fzc.sel{border-color:var(--berry);background:var(--berry-lt)}
+.fzc .fi{font-size:34px}
+.fzc h4{font-size:17px;margin:6px 0 2px}
+.fzc small{color:var(--muted);display:block}
+.fzc .qty{display:none;align-items:center;gap:8px;margin-top:12px}
+.fzc.sel .qty{display:flex}
+.qty button{width:30px;height:30px;border-radius:50%;border:0;background:var(--berry);color:#fff;font-size:18px;cursor:pointer}
+.qty b{min-width:20px;text-align:center}
+
+/* Review */
+.review{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.rbox{background:var(--cream);border-radius:14px;padding:16px 18px}
+.rbox h4{color:var(--berry);margin-bottom:8px;display:flex;justify-content:space-between}
+.rbox h4 a{font-family:Inter;font-size:12px;cursor:pointer;text-decoration:underline}
+.rbox dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:14px}
+.rbox dt{color:var(--muted)}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:14px;margin-top:18px}
+.check input{margin-top:4px;accent-color:var(--berry);width:17px;height:17px}
+
+/* Success */
+.success{text-align:center;padding:30px 10px}
+.success .big{width:90px;height:90px;border-radius:50%;background:var(--mint-lt);color:var(--mint);font-size:46px;display:grid;place-items:center;margin:0 auto 18px;animation:pop .5s}
+@keyframes pop{0%{transform:scale(.3)}70%{transform:scale(1.1)}100%{transform:scale(1)}}
+.success h2{font-size:28px;margin-bottom:6px}
+.refid{display:inline-block;background:var(--berry-lt);color:var(--berry);font:700 20px Fredoka;padding:8px 20px;border-radius:12px;margin:14px 0;letter-spacing:1px}
+.timeline{max-width:420px;margin:18px auto;text-align:left}
+.tl{display:flex;gap:12px;padding:8px 0}
+.tl .d{width:14px;height:14px;border-radius:50%;background:var(--line);margin-top:5px;flex:none}
+.tl.ok .d{background:var(--mint)}
+.tl.now .d{background:var(--berry);box-shadow:0 0 0 5px var(--berry-lt)}
+
+/* Toggle tabs */
+.seg{display:inline-flex;background:var(--cream);border-radius:999px;padding:5px;margin-bottom:24px;flex-wrap:wrap}
+.seg button{border:0;background:none;padding:10px 20px;border-radius:999px;font:600 14px Inter;color:var(--muted);cursor:pointer}
+.seg button.on{background:#fff;color:var(--berry);box-shadow:0 3px 10px rgba(0,0,0,.07)}
+.hide{display:none!important}
+
+/* Jobs */
+.jobs{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.job{background:#fff;border-radius:18px;padding:22px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px}
+.job h3{font-size:20px}
+.meta{display:flex;flex-wrap:wrap;gap:8px}
+.meta span{font-size:12px;background:var(--cream);padding:4px 10px;border-radius:999px;color:var(--muted);font-weight:500}
+.job p{font-size:14px;color:var(--muted)}
+.job .btn{align-self:flex-start;padding:10px 20px}
+.filters{display:flex;gap:12px;margin-bottom:22px;flex-wrap:wrap}
+.filters input,.filters select{padding:11px 14px;border:1.5px solid var(--line);border-radius:12px;font:14px Inter;background:#fff}
+.filters input{flex:1;min-width:200px}
+
+/* Modal */
+.modal{position:fixed;inset:0;background:rgba(43,26,34,.55);display:none;align-items:flex-start;justify-content:center;z-index:100;padding:40px 16px;overflow:auto}
+.modal.open{display:flex}
+.mbox{background:#fff;border-radius:22px;max-width:680px;width:100%;padding:30px;position:relative;animation:fade .3s}
+.mclose{position:absolute;right:18px;top:14px;border:0;background:var(--cream);width:36px;height:36px;border-radius:50%;font-size:20px;cursor:pointer}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--ink);color:#fff;padding:12px 22px;border-radius:12px;font-size:14px;transition:.3s;z-index:200}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+footer{background:#2b1a22;color:#d9c8d0;padding:40px 0 24px;margin-top:20px}
+.fgrid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:30px}
+footer h4{color:#fff;margin-bottom:10px}
+footer p,footer li{font-size:14px;list-style:none;margin-bottom:4px}
+.fbot{border-top:1px solid #4a3540;margin-top:24px;padding-top:16px;font-size:12px;text-align:center;color:#a8939c}
+.demo-badge{position:fixed;right:14px;bottom:14px;background:#ffe3a3;color:#6b4a00;font-size:11px;font-weight:700;padding:6px 12px;border-radius:999px;z-index:60;letter-spacing:.5px}
+
+@media(max-width:860px){
+  .hero-grid,.grid2,.grid3,.review,.jobs,.fgrid{grid-template-columns:1fr}
+  .cards3,.fz{grid-template-columns:1fr}
+  .products{grid-template-columns:repeat(4,1fr)}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .scoops{display:none}
+  .hero h1{font-size:38px}
+  .navlinks{display:none;position:absolute;top:68px;left:0;right:0;background:var(--cream);flex-direction:column;padding:12px 20px;border-bottom:1px solid var(--line)}
+  .navlinks.open{display:flex}
+  .burger{display:block}
+  .panel{padding:22px}
+  .st span{display:none}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a href="#home" class="brand"><span class="dot"></span><div>Camerry<small>Love has many flavours</small></div></a>
+    <nav class="navlinks" id="navlinks">
+      <a href="#home" data-p="home">Home</a>
+      <a href="#dealer" data-p="dealer">Dealer Onboarding</a>
+      <a href="#complaint" data-p="complaint">Complaints</a>
+      <a href="#careers" data-p="careers">Apply for Job</a>
+    </nav>
+    <button class="burger" onclick="document.getElementById('navlinks').classList.toggle('open')">☰</button>
+  </div>
+</header>
+
+<!-- ================= HOME ================= -->
+<main>
+<div class="page" id="p-home">
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="tag">🍨 Kerala's fastest growing ice cream brand</span>
+        <h1>Scoop up a <span>sweeter</span> partnership.</h1>
+        <p>Real fruits, rich creamy milk and natural flavours — now with a simpler way to partner with us, reach our quality team, or join the Camerry family.</p>
+        <div class="btn-row">
+          <a href="#dealer" class="btn btn-primary">Become a Dealer →</a>
+          <a href="#complaint" class="btn btn-ghost">Raise a Complaint</a>
+        </div>
+      </div>
+      <div class="scoops">
+        <div class="scoop s1"></div><div class="scoop s2"></div><div class="scoop s3"></div><div class="cone"></div>
+        <div class="sprk" style="background:#c8175d;left:110px;top:80px;transform:rotate(30deg)"></div>
+        <div class="sprk" style="background:#14a38b;left:250px;top:120px;transform:rotate(-40deg)"></div>
+        <div class="sprk" style="background:#f4a300;left:170px;top:200px;transform:rotate(70deg)"></div>
+      </div>
+    </div>
+    <div class="container stats">
+      <div class="stat"><b>1500+</b><span>Retail partners</span></div>
+      <div class="stat"><b>120+</b><span>Flavours & SKUs</span></div>
+      <div class="stat"><b>14</b><span>Districts served</span></div>
+      <div class="stat"><b>24 hr</b><span>Complaint response</span></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="container">
+      <div class="section-title"><h2>How can we help you today?</h2><p>Choose a service to get started</p></div>
+      <div class="cards3">
+        <div class="svc" onclick="location.hash='dealer'">
+          <div class="ic" style="background:var(--berry-lt)">🏪</div>
+          <h3>Dealer Onboarding</h3>
+          <p>Register your shop as a Camerry dealer. Share business details, KYC, GST & cheque, and request freezers — all online.</p>
+          <span class="go">Start application →</span>
+        </div>
+        <div class="svc" onclick="location.hash='complaint'">
+          <div class="ic" style="background:#fff1d6">📝</div>
+          <h3>Customer Complaint</h3>
+          <p>Customer or distributor? Report product, delivery or freezer issues with photos — get a ticket ID instantly.</p>
+          <span class="go">Raise complaint →</span>
+        </div>
+        <div class="svc" onclick="location.hash='careers'">
+          <div class="ic" style="background:var(--mint-lt)">💼</div>
+          <h3>Apply for Job</h3>
+          <p>Explore open roles in sales, production, quality and logistics. Apply with your resume in two minutes.</p>
+          <span class="go">View openings →</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:10px">
+    <div class="container">
+      <div class="section-title"><h2>Our range</h2></div>
+      <div class="products">
+        <div class="prod"><div>🍦</div>Cones</div>
+        <div class="prod"><div>🥡</div>Tubs</div>
+        <div class="prod"><div>🍫</div>Bars</div>
+        <div class="prod"><div>🍓</div>Fruiticle</div>
+        <div class="prod"><div>🥛</div>Milkies</div>
+        <div class="prod"><div>🧃</div>Sipie</div>
+        <div class="prod"><div>⭐</div>Specialities</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= DEALER ================= -->
+<div class="page" id="p-dealer">
+  <div class="phead"><div class="container"><h1>Dealer Onboarding</h1><p>Complete 5 quick steps · takes about 6 minutes</p></div></div>
+  <div class="container">
+    <div class="panel" id="dealerPanel">
+      <div class="stepper" id="stepper">
+        <div class="bar" id="sbar"></div>
+        <div class="st on"><div class="n">1</div><span>Basic Details</span></div>
+        <div class="st"><div class="n">2</div><span>Business</span></div>
+        <div class="st"><div class="n">3</div><span>KYC & Banking</span></div>
+        <div class="st"><div class="n">4</div><span>Freezer</span></div>
+        <div class="st"><div class="n">5</div><span>Review</span></div>
+      </div>
+
+      <form id="dealerForm" novalidate>
+      <!-- Step 1 -->
+      <div class="wstep active" data-step="1">
+        <h3 class="h-sub">👤 Owner & Shop Details</h3>
+        <div class="grid2">
+          <div class="field"><label>Owner full name <span class="req">*</span></label><input name="ownerName" required placeholder="e.g. Rajesh Kumar"><div class="emsg">Please enter name</div></div>
+          <div class="field"><label>Shop / Firm name <span class="req">*</span></label><input name="shopName" required placeholder="e.g. Sree Bakery & Cool Bar"><div class="emsg">Please enter shop name</div></div>
+          <div class="field"><label>Mobile number <span class="req">*</span></label><input name="mobile" required pattern="[6-9][0-9]{9}" maxlength="10" placeholder="10-digit mobile"><div class="emsg">Enter a valid 10-digit mobile</div></div>
+          <div class="field"><label>Email</label><input name="email" type="email" placeholder="you@example.com"><div class="emsg">Enter a valid email</div></div>
+          <div class="field"><label>Type of outlet <span class="req">*</span></label>
+            <select name="outletType" required><option value="">Select</option><option>Bakery</option><option>Supermarket</option><option>Cool Bar / Juice Shop</option><option>Grocery / Kirana</option><option>Restaurant / Hotel</option><option>Distributor / Stockist</option><option>Other</option></select><div class="emsg">Select outlet type</div></div>
+          <div class="field"><label>Dealer type applying for <span class="req">*</span></label>
+            <select name="dealerType" required><option value="">Select</option><option>Retailer</option><option>Sub-Distributor</option><option>Distributor</option><option>Super Stockist</option></select><div class="emsg">Select dealer type</div></div>
+          <div class="field full"><label>Shop address <span class="req">*</span></label><textarea name="address" rows="2" required placeholder="Building, street, landmark"></textarea><div class="emsg">Enter address</div></div>
+          <div class="field"><label>District <span class="req">*</span></label>
+            <select name="district" required><option value="">Select</option><option>Ernakulam</option><option>Thrissur</option><option>Kottayam</option><option>Idukki</option><option>Alappuzha</option><option>Palakkad</option><option>Malappuram</option><option>Kozhikode</option><option>Thiruvananthapuram</option><option>Kollam</option><option>Pathanamthitta</option><option>Kannur</option><option>Wayanad</option><option>Kasaragod</option></select><div class="emsg">Select district</div></div>
+          <div class="field"><label>PIN code <span class="req">*</span></label><input name="pin" required pattern="[0-9]{6}" maxlength="6" placeholder="683550"><div class="emsg">Enter 6-digit PIN</div></div>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="wstep" data-step="2">
+        <h3 class="h-sub">📊 Current Business</h3>
+        <div class="grid2">
+          <div class="field"><label>Years in business <span class="req">*</span></label>
+            <select name="years" required><option value="">Select</option><option>Less than 1 year</option><option>1–3 years</option><option>3–5 years</option><option>5–10 years</option><option>10+ years</option></select><div class="emsg">Required</div></div>
+          <div class="field"><label>Shop area (sq. ft) <span class="req">*</span></label><input name="area" type="number" required placeholder="e.g. 400"><div class="emsg">Required</div></div>
+          <div class="field"><label>Current monthly turnover <span class="req">*</span></label>
+            <select name="turnover" required><option value="">Select</option><option>Below ₹1 Lakh</option><option>₹1–3 Lakh</option><option>₹3–10 Lakh</option><option>₹10–25 Lakh</option><option>Above ₹25 Lakh</option></select><div class="emsg">Required</div></div>
+          <div class="field"><label>Daily footfall (approx.)</label><input name="footfall" type="number" placeholder="e.g. 150"></div>
+          <div class="field full"><label>Ice cream brands currently sold</label>
+            <div class="chips">
+              <div class="chip"><input type="checkbox" id="b1" name="brands" value="Amul"><label for="b1">Amul</label></div>
+              <div class="chip"><input type="checkbox" id="b2" name="brands" value="Arun"><label for="b2">Arun</label></div>
+              <div class="chip"><input type="checkbox" id="b3" name="brands" value="Kwality Wall's"><label for="b3">Kwality Wall's</label></div>
+              <div class="chip"><input type="checkbox" id="b4" name="brands" value="Milma"><label for="b4">Milma</label></div>
+              <div class="chip"><input type="checkbox" id="b5" name="brands" value="Local brands"><label for="b5">Local brands</label></div>
+              <div class="chip"><input type="checkbox" id="b6" name="brands" value="None"><label for="b6">None yet</label></div>
+            </div>
+          </div>
+          <div class="field"><label>Existing freezers at shop</label><input name="existingFreezers" type="number" min="0" placeholder="0"></div>
+          <div class="field"><label>Power backup available?</label>
+            <select name="backup"><option>Yes – Inverter</option><option>Yes – Generator</option><option>No</option></select></div>
+        </div>
+
+        <h3 class="h-sub">🚀 Potential Business with Camerry</h3>
+        <div class="grid2">
+          <div class="field"><label>Expected monthly ice cream sales <span class="req">*</span></label>
+            <select name="potential" required><option value="">Select</option><option>Below ₹25,000</option><option>₹25,000–50,000</option><option>₹50,000–1 Lakh</option><option>₹1–3 Lakh</option><option>Above ₹3 Lakh</option></select><div class="emsg">Required</div></div>
+          <div class="field"><label>Peak season sales estimate (Mar–May)</label><input name="peak" placeholder="e.g. ₹1.5 Lakh / month"></div>
+          <div class="field full"><label>Product categories of interest</label>
+            <div class="chips">
+              <div class="chip"><input type="checkbox" id="c1" name="cats" value="Cones" checked><label for="c1">Cones</label></div>
+              <div class="chip"><input type="checkbox" id="c2" name="cats" value="Tubs"><label for="c2">Tubs</label></div>
+              <div class="chip"><input type="checkbox" id="c3" name="cats" value="Bars"><label for="c3">Bars</label></div>
+              <div class="chip"><input type="checkbox" id="c4" name="cats" value="Fruiticle"><label for="c4">Fruiticle</label></div>
+              <div class="chip"><input type="checkbox" id="c5" name="cats" value="Milkies"><label for="c5">Milkies</label></div>
+              <div class="chip"><input type="checkbox" id="c6" name="cats" value="Sipie"><label for="c6">Sipie</label></div>
+              <div class="chip"><input type="checkbox" id="c7" name="cats" value="Specialities"><label for="c7">Specialities</label></div>
+            </div>
+          </div>
+          <div class="field"><label>Nearby schools / colleges / offices?</label>
+            <select name="nearby"><option>Yes</option><option>No</option></select></div>
+          <div class="field"><label>How did you hear about us?</label>
+            <select name="source"><option>Sales executive visit</option><option>Distributor</option><option>Social media</option><option>Another dealer</option><option>Website</option></select></div>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="wstep" data-step="3">
+        <h3 class="h-sub">🪪 KYC Documents</h3>
+        <div class="grid2">
+          <div class="field"><label>PAN number <span class="req">*</span></label><input name="pan" required pattern="[A-Za-z]{5}[0-9]{4}[A-Za-z]" maxlength="10" placeholder="ABCDE1234F" style="text-transform:uppercase"><div class="emsg">Enter valid PAN (ABCDE1234F)</div></div>
+          <div class="field"><label>Aadhaar number <span class="req">*</span></label><input name="aadhaar" required pattern="[0-9]{12}" maxlength="12" placeholder="12-digit Aadhaar"><div class="emsg">Enter 12-digit Aadhaar</div></div>
+          <div class="field"><label>PAN card copy <span class="req">*</span></label>
+            <div class="upload" data-up="panFile"><input type="file" accept="image/*,.pdf"><div class="ui">📄</div><div class="ut"><b>Click to upload</b> or drag & drop<br>JPG, PNG or PDF</div></div><div class="flist" id="fl-panFile"></div><div class="emsg">Upload PAN copy</div></div>
+          <div class="field"><label>Aadhaar card copy <span class="req">*</span></label>
+            <div class="upload" data-up="aadhaarFile"><input type="file" accept="image/*,.pdf"><div class="ui">📄</div><div class="ut"><b>Click to upload</b> or drag & drop<br>Front & back</div></div><div class="flist" id="fl-aadhaarFile"></div><div class="emsg">Upload Aadhaar copy</div></div>
+          <div class="field"><label>Shop photo</label>
+            <div class="upload" data-up="shopPhoto"><input type="file" accept="image/*"><div class="ui">📸</div><div class="ut"><b>Upload shop front photo</b></div></div><div class="flist" id="fl-shopPhoto"></div></div>
+          <div class="field"><label>FSSAI licence no.</label><input name="fssai" maxlength="14" placeholder="14-digit FSSAI (if available)"></div>
+        </div>
+
+        <h3 class="h-sub">🧾 GST Details</h3>
+        <div class="grid2">
+          <div class="field"><label>GST registered?</label>
+            <div class="chips">
+              <div class="chip"><input type="radio" id="g1" name="gstReg" value="Yes" checked><label for="g1">Yes</label></div>
+              <div class="chip"><input type="radio" id="g2" name="gstReg" value="No"><label for="g2">No / Composition</label></div>
+            </div></div>
+          <div class="field gstOnly"><label>GSTIN <span class="req">*</span></label><input name="gstin" pattern="[0-9]{2}[A-Za-z]{5}[0-9]{4}[A-Za-z][0-9A-Za-z]Z[0-9A-Za-z]" maxlength="15" placeholder="32ABCDE1234F1Z5" style="text-transform:uppercase"><div class="emsg">Enter valid 15-char GSTIN</div></div>
+          <div class="field gstOnly full"><label>GST certificate <span class="req">*</span></label>
+            <div class="upload" data-up="gstFile"><input type="file" accept="image/*,.pdf"><div class="ui">🧾</div><div class="ut"><b>Upload GST registration certificate</b></div></div><div class="flist" id="fl-gstFile"></div><div class="emsg">Upload GST certificate</div></div>
+        </div>
+
+        <h3 class="h-sub">🏦 Bank & Security Cheque</h3>
+        <div class="grid2">
+          <div class="field"><label>Bank name <span class="req">*</span></label><input name="bank" required placeholder="e.g. Federal Bank"><div class="emsg">Required</div></div>
+          <div class="field"><label>IFSC code <span class="req">*</span></label><input name="ifsc" required pattern="[A-Za-z]{4}0[A-Za-z0-9]{6}" maxlength="11" placeholder="FDRL0001234" style="text-transform:uppercase"><div class="emsg">Enter valid IFSC</div></div>
+          <div class="field"><label>Account number <span class="req">*</span></label><input name="acc" required pattern="[0-9]{9,18}" placeholder="Account number"><div class="emsg">Enter valid account number</div></div>
+          <div class="field"><label>Cheque number <span class="req">*</span></label><input name="chq" required pattern="[0-9]{6}" maxlength="6" placeholder="6-digit cheque no."><div class="emsg">Enter 6-digit cheque no.</div></div>
+          <div class="field full"><label>Cancelled / security cheque image <span class="req">*</span></label>
+            <div class="upload" data-up="chqFile"><input type="file" accept="image/*,.pdf"><div class="ui">🏦</div><div class="ut"><b>Upload cheque photo</b> — name & account number should be clearly visible</div></div><div class="flist" id="fl-chqFile"></div><div class="emsg">Upload cheque image</div></div>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="wstep" data-step="4">
+        <h3 class="h-sub">❄️ Freezer Requirement</h3>
+        <div class="field" style="margin-bottom:18px"><label>Do you need a Camerry freezer?</label>
+          <div class="chips">
+            <div class="chip"><input type="radio" id="fn1" name="needFreezer" value="Yes" checked><label for="fn1">Yes, I need a freezer</label></div>
+            <div class="chip"><input type="radio" id="fn2" name="needFreezer" value="No"><label for="fn2">No, I have my own</label></div>
+          </div></div>
+        <div id="freezerBlock">
+          <p class="hint" style="margin-bottom:12px;color:var(--muted);font-size:14px">Select freezer type(s) and quantity. Freezers are provided on refundable deposit / subject to sales target.</p>
+          <div class="fz" id="fzGrid">
+            <div class="fzc" data-k="100L Visi Cooler"><div class="fi">🧊</div><h4>100 L Glass Top</h4><small>Small counter · ideal for cones & bars</small><small><b>Deposit ₹5,000</b></small><div class="qty"><button type="button" data-d="-1">−</button><b>1</b><button type="button" data-d="1">+</button></div></div>
+            <div class="fzc" data-k="300L Chest Freezer"><div class="fi">❄️</div><h4>300 L Chest</h4><small>Most popular · tubs & family packs</small><small><b>Deposit ₹10,000</b></small><div class="qty"><button type="button" data-d="-1">−</button><b>1</b><button type="button" data-d="1">+</button></div></div>
+            <div class="fzc" data-k="500L Display Freezer"><div class="fi">🏬</div><h4>500 L Display</h4><small>Supermarkets & high-volume outlets</small><small><b>Deposit ₹18,000</b></small><div class="qty"><button type="button" data-d="-1">−</button><b>1</b><button type="button" data-d="1">+</button></div></div>
+          </div>
+          <div class="emsg" id="fzErr" style="color:#e53935;font-size:13px;margin-top:8px;display:none">Please select at least one freezer</div>
+          <div class="grid2" style="margin-top:22px">
+            <div class="field"><label>Space available for freezer</label>
+              <select name="space"><option>Inside shop</option><option>Front verandah (covered)</option><option>Outside (open)</option></select></div>
+            <div class="field"><label>Dedicated power socket (15A)?</label>
+              <select name="socket"><option>Yes</option><option>No – will arrange</option></select></div>
+            <div class="field"><label>Preferred installation date</label><input type="date" name="installDate"></div>
+            <div class="field"><label>Deposit payment mode</label>
+              <select name="depMode"><option>Cheque</option><option>UPI / NEFT</option><option>Adjust against first order</option></select></div>
+            <div class="field full"><label>Additional notes</label><textarea name="notes" rows="2" placeholder="Anything our sales team should know"></textarea></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 5 -->
+      <div class="wstep" data-step="5">
+        <h3 class="h-sub">✅ Review your application</h3>
+        <div class="review" id="reviewBox"></div>
+        <label class="check"><input type="checkbox" id="agree"> I confirm the above information is correct and agree to Camerry's dealer terms, freezer usage policy and credit terms.</label>
+        <div class="emsg" id="agreeErr" style="color:#e53935;font-size:13px;margin-top:6px;display:none">Please accept the terms</div>
+      </div>
+
+      <div class="wnav" id="wnav">
+        <button type="button" class="btn btn-ghost" id="prevBtn" style="visibility:hidden">← Back</button>
+        <div style="display:flex;gap:10px">
+          <button type="button" class="btn btn-ghost" id="fillBtn" title="Demo helper">⚡ Fill demo data</button>
+          <button type="button" class="btn btn-primary" id="nextBtn">Next →</button>
+        </div>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ================= COMPLAINT ================= -->
+<div class="page" id="p-complaint">
+  <div class="phead"><div class="container"><h1>Customer Care & Complaints</h1><p>Toll free: 1800 889 2080 · We respond within 24 hours</p></div></div>
+  <div class="container">
+    <div class="panel" id="cmpPanel">
+      <div class="seg" id="cmpMode">
+        <button type="button" class="on" data-m="new">Raise complaint</button>
+        <button type="button" data-m="track">Track complaint</button>
+      </div>
+
+      <div id="trackBox" class="hide">
+        <div class="grid2">
+          <div class="field"><label>Ticket ID</label><input id="trackId" placeholder="CMP-XXXXXX"></div>
+          <div class="field" style="display:flex;align-items:flex-end"><button type="button" class="btn btn-primary" onclick="trackTicket()">Check status</button></div>
+        </div>
+        <div id="trackRes"></div>
+      </div>
+
+      <form id="cmpForm" novalidate>
+        <h3 class="h-sub">Who is raising the complaint?</h3>
+        <div class="seg" id="whoSeg">
+          <button type="button" class="on" data-w="Customer">🙋 End Customer</button>
+          <button type="button" data-w="Distributor">🚚 Distributor</button>
+          <button type="button" data-w="Dealer">🏪 Dealer / Retailer</button>
+        </div>
+
+        <div class="grid2">
+          <div class="field"><label>Full name <span class="req">*</span></label><input name="name" required><div class="emsg">Required</div></div>
+          <div class="field"><label>Mobile <span class="req">*</span></label><input name="mobile" required pattern="[6-9][0-9]{9}" maxlength="10"><div class="emsg">Enter valid mobile</div></div>
+          <div class="field"><label>Email</label><input name="email" type="email"></div>
+          <div class="field"><label>District</label>
+            <select name="district"><option>Ernakulam</option><option>Thrissur</option><option>Kottayam</option><option>Alappuzha</option><option>Idukki</option><option>Kozhikode</option><option>Malappuram</option><option>Palakkad</option><option>Thiruvananthapuram</option><option>Other</option></select></div>
+          <div class="field partnerOnly hide"><label><span id="codeLbl">Distributor</span> code <span class="req">*</span></label><input name="partnerCode" placeholder="e.g. DST-1024"><div class="emsg">Required</div></div>
+          <div class="field partnerOnly hide"><label>Firm name <span class="req">*</span></label><input name="firm"><div class="emsg">Required</div></div>
+          <div class="field custOnly"><label>Where did you buy?</label><input name="shop" placeholder="Shop name & location"></div>
+        </div>
+
+        <hr class="sep">
+        <h3 class="h-sub">Complaint details</h3>
+        <div class="grid2">
+          <div class="field"><label>Complaint category <span class="req">*</span></label>
+            <select name="category" id="catSel" required></select><div class="emsg">Select category</div></div>
+          <div class="field"><label>Product</label>
+            <select name="product"><option value="">Select</option><option>Cone</option><option>Tub</option><option>Bar</option><option>Fruiticle</option><option>Milkies</option><option>Sipie</option><option>Speciality</option><option>Not product related</option></select></div>
+          <div class="field"><label>Batch no. / Best before</label><input name="batch" placeholder="Printed on pack"></div>
+          <div class="field"><label>Date of purchase / incident <span class="req">*</span></label><input type="date" name="date" required><div class="emsg">Required</div></div>
+          <div class="field partnerOnly hide"><label>Invoice / Order no.</label><input name="invoice" placeholder="INV-..."></div>
+          <div class="field partnerOnly hide"><label>Quantity affected</label><input name="qty" type="number" placeholder="No. of units / cartons"></div>
+          <div class="field full"><label>Priority</label>
+            <div class="chips">
+              <div class="chip"><input type="radio" id="p1" name="priority" value="Low"><label for="p1">Low</label></div>
+              <div class="chip"><input type="radio" id="p2" name="priority" value="Medium" checked><label for="p2">Medium</label></div>
+              <div class="chip"><input type="radio" id="p3" name="priority" value="High"><label for="p3">High</label></div>
+              <div class="chip"><input type="radio" id="p4" name="priority" value="Urgent"><label for="p4">🚨 Urgent</label></div>
+            </div></div>
+          <div class="field full"><label>Describe the issue <span class="req">*</span></label><textarea name="desc" rows="4" required minlength="15" placeholder="Please describe what happened..."></textarea><div class="hint"><span id="dcount">0</span>/1000 characters</div><div class="emsg">Please describe in at least 15 characters</div></div>
+          <div class="field full"><label>Attachments <span style="font-weight:400;color:var(--muted)">(photos, video, invoice — max 5 files)</span></label>
+            <div class="upload" data-up="cmpFiles" data-multi="5"><input type="file" multiple accept="image/*,video/*,.pdf"><div class="ui">📎</div><div class="ut"><b>Click to attach</b> or drag & drop files here<br>Photo of product, pack, batch code or invoice</div></div>
+            <div class="flist" id="fl-cmpFiles"></div></div>
+          <div class="field full"><label>Preferred resolution</label>
+            <select name="resolution"><option>Replacement</option><option>Refund / Credit note</option><option>Technician visit</option><option>Just informing</option></select></div>
+        </div>
+        <div class="wnav">
+          <button type="button" class="btn btn-ghost" onclick="demoComplaint()">⚡ Fill demo data</button>
+          <button type="submit" class="btn btn-primary">Submit complaint</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ================= CAREERS ================= -->
+<div class="page" id="p-careers">
+  <div class="phead"><div class="container"><h1>Careers at Camerry</h1><p>Join a team that makes Kerala smile, one scoop at a time.</p></div></div>
+  <div class="container" style="padding-top:34px;padding-bottom:50px">
+    <div class="filters">
+      <input id="jobSearch" placeholder="🔍 Search roles...">
+      <select id="jobDept"><option value="">All departments</option></select>
+      <select id="jobLoc"><option value="">All locations</option></select>
+    </div>
+    <div class="jobs" id="jobList"></div>
+    <div style="text-align:center;margin-top:30px">
+      <p style="color:var(--muted);margin-bottom:10px">Don't see a role that fits?</p>
+      <button class="btn btn-ghost" onclick="openApply('General Application')">Send a general application</button>
+    </div>
+  </div>
+</div>
+</main>
+
+<!-- Apply modal -->
+<div class="modal" id="applyModal">
+  <div class="mbox">
+    <button class="mclose" onclick="closeApply()">×</button>
+    <div id="applyContent">
+      <h2 style="font-size:24px">Apply for <span id="applyRole" style="color:var(--berry)"></span></h2>
+      <p style="color:var(--muted);font-size:14px;margin-bottom:20px">Fill in your details — our HR team will get back to you.</p>
+      <form id="jobForm" novalidate>
+        <div class="grid2">
+          <div class="field"><label>Full name <span class="req">*</span></label><input name="name" required><div class="emsg">Required</div></div>
+          <div class="field"><label>Mobile <span class="req">*</span></label><input name="mobile" required pattern="[6-9][0-9]{9}" maxlength="10"><div class="emsg">Enter valid mobile</div></div>
+          <div class="field"><label>Email <span class="req">*</span></label><input name="email" type="email" required><div class="emsg">Enter valid email</div></div>
+          <div class="field"><label>Current location</label><input name="loc" placeholder="City"></div>
+          <div class="field"><label>Highest qualification <span class="req">*</span></label>
+            <select name="qual" required><option value="">Select</option><option>SSLC / 10th</option><option>Plus Two / 12th</option><option>ITI / Diploma</option><option>Graduate</option><option>Post Graduate</option><option>B.Tech / Food Tech</option></select><div class="emsg">Required</div></div>
+          <div class="field"><label>Experience</label>
+            <select name="exp"><option>Fresher</option><option>1–2 years</option><option>2–5 years</option><option>5–10 years</option><option>10+ years</option></select></div>
+          <div class="field"><label>Current CTC (₹/month)</label><input name="ctc" type="number"></div>
+          <div class="field"><label>Notice period</label>
+            <select name="notice"><option>Immediate</option><option>15 days</option><option>30 days</option><option>60+ days</option></select></div>
+          <div class="field full"><label>Resume <span class="req">*</span></label>
+            <div class="upload" data-up="resume"><input type="file" accept=".pdf,.doc,.docx"><div class="ui">📄</div><div class="ut"><b>Upload resume</b> · PDF or Word</div></div><div class="flist" id="fl-resume"></div><div class="emsg">Upload your resume</div></div>
+          <div class="field full"><label>Why do you want to join Camerry?</label><textarea name="why" rows="3"></textarea></div>
+        </div>
+        <div class="wnav">
+          <button type="button" class="btn btn-ghost" onclick="demoJob()">⚡ Fill demo data</button>
+          <button type="submit" class="btn btn-primary">Submit application</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="container fgrid">
+    <div><div class="brand" style="color:#fff;margin-bottom:10px"><span class="dot"></span>Camerry</div>
+      <p>XV/274, M.C Road, Okkal P.O,<br>Ernakulam, Kerala – 683550</p></div>
+    <div><h4>Contact</h4><p>Toll free: 1800 889 2080</p><p>Office: 0484 2524 335</p><p>HR: 9778632800</p></div>
+    <div><h4>Email</h4><p>Complaints: qc@nutricreams.in</p><p>Enquiries: flavours@camerry.in</p><p>Careers: hr@nutricreams.in</p></div>
+  </div>
+  <div class="container fbot">Prototype for demonstration only · No data is sent anywhere</div>
+</footer>
+
+<div class="demo-badge">DEMO PROTOTYPE</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ---------- Utilities ---------- */
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const files={};           // key -> array of File
+const tickets={};         // demo in-memory tickets
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2400)}
+function rid(p){return p+'-'+Math.random().toString(36).slice(2,8).toUpperCase()}
+function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+/* ---------- Router ---------- */
+function route(){
+  const p=(location.hash||'#home').slice(1);
+  const page=$('#p-'+p)?p:'home';
+  $$('.page').forEach(x=>x.classList.toggle('active',x.id==='p-'+page));
+  $$('.navlinks a').forEach(a=>a.classList.toggle('active',a.dataset.p===page));
+  $('#navlinks').classList.remove('open');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+window.addEventListener('hashchange',route);
+
+/* ---------- Upload widgets ---------- */
+function renderFiles(key){
+  const list=$('#fl-'+key); if(!list) return;
+  const arr=files[key]||[];
+  list.innerHTML='';
+  arr.forEach((f,i)=>{
+    const c=document.createElement('div');c.className='fchip';
+    let thumb='📄';
+    if(f.type&&f.type.startsWith('image/')){const u=URL.createObjectURL(f);thumb=`<img src="${u}">`}
+    else if(f.type&&f.type.startsWith('video/')) thumb='🎬';
+    c.innerHTML=`${thumb}<span>${esc(f.name.length>26?f.name.slice(0,23)+'…':f.name)} <small style="color:var(--muted)">(${(f.size/1024).toFixed(0)} KB)</small></span><span class="x" title="Remove">✕</span>`;
+    c.querySelector('.x').onclick=()=>{arr.splice(i,1);renderFiles(key)};
+    list.appendChild(c);
+  });
+  const up=$(`.upload[data-up="${key}"]`);
+  up.classList.toggle('has',arr.length>0);
+  if(arr.length) up.closest('.field')?.classList.remove('err');
+}
+function addFiles(key,fl,max){
+  files[key]=files[key]||[];
+  const arr=[...fl];
+  if(max){ files[key]=files[key].concat(arr).slice(0,max); if(files[key].length>=max&&arr.length) toast(`Max ${max} files`);}
+  else files[key]=arr.slice(0,1);
+  renderFiles(key);
+}
+$$('.upload').forEach(u=>{
+  const key=u.dataset.up, inp=u.querySelector('input'), max=+u.dataset.multi||0;
+  u.addEventListener('click',()=>inp.click());
+  inp.addEventListener('change',()=>{addFiles(key,inp.files,max);inp.value=''});
+  ['dragenter','dragover'].forEach(e=>u.addEventListener(e,ev=>{ev.preventDefault();u.classList.add('drag')}));
+  ['dragleave','drop'].forEach(e=>u.addEventListener(e,ev=>{ev.preventDefault();u.classList.remove('drag')}));
+  u.addEventListener('drop',ev=>addFiles(key,ev.dataTransfer.files,max));
+});
+function fakeFile(name,type='application/pdf'){return new File(['demo'],name,{type})}
+
+/* ---------- Validation ---------- */
+function validate(container){
+  let ok=true,first=null;
+  $$('input,select,textarea',container).forEach(el=>{
+    if(el.closest('.hide')||el.offsetParent===null&&el.type!=='file') {el.closest('.field')?.classList.remove('err');return;}
+    if(el.type==='file'||el.type==='checkbox'||el.type==='radio') return;
+    const f=el.closest('.field'); if(!f) return;
+    const bad=!el.checkValidity();
+    f.classList.toggle('err',bad);
+    if(bad){ok=false;first=first||el}
+  });
+  $$('.upload',container).forEach(u=>{
+    const f=u.closest('.field');
+    if(!f||f.offsetParent===null) return;
+    const req=f.querySelector('.req');
+    if(req&&!(files[u.dataset.up]||[]).length){f.classList.add('err');ok=false;first=first||u}
+  });
+  if(first){first.scrollIntoView({behavior:'smooth',block:'center'});toast('Please fill the highlighted fields')}
+  return ok;
+}
+document.addEventListener('input',e=>{const f=e.target.closest('.field');if(f&&f.classList.contains('err')&&e.target.checkValidity())f.classList.remove('err')});
+
+/* ---------- Dealer wizard ---------- */
+let step=1; const TOTAL=5; const freezers={};
+const dForm=$('#dealerForm');
+function showStep(n){
+  step=n;
+  $$('.wstep',dForm).forEach(s=>s.classList.toggle('active',+s.dataset.step===n));
+  $$('#stepper .st').forEach((s,i)=>{s.classList.toggle('on',i+1===n);s.classList.toggle('done',i+1<n);s.querySelector('.n').textContent=i+1<n?'✓':i+1});
+  const st=$('#stepper'); const w=st.clientWidth-60;
+  $('#sbar').style.width=(w*(n-1)/(TOTAL-1))+'px';
+  $('#prevBtn').style.visibility=n>1?'visible':'hidden';
+  $('#nextBtn').textContent=n===TOTAL?'Submit application ✓':'Next →';
+  if(n===TOTAL) buildReview();
+  $('#dealerPanel').scrollIntoView({behavior:'smooth',block:'start'});
+}
+$('#nextBtn').onclick=()=>{
+  const cur=$(`.wstep[data-step="${step}"]`,dForm);
+  if(!validate(cur)) return;
+  if(step===4&&dForm.needFreezer.value==='Yes'&&!Object.keys(freezers).length){$('#fzErr').style.display='block';return}
+  if(step===TOTAL){
+    if(!$('#agree').checked){$('#agreeErr').style.display='block';return}
+    return dealerSuccess();
+  }
+  showStep(step+1);
+};
+$('#prevBtn').onclick=()=>showStep(step-1);
+$('#agree').onchange=()=>$('#agreeErr').style.display='none';
+
+// GST toggle
+$$('input[name="gstReg"]').forEach(r=>r.onchange=()=>{
+  const on=dForm.gstReg.value==='Yes';
+  $$('.gstOnly').forEach(x=>x.classList.toggle('hide',!on));
+  dForm.gstin.required=on;
+});
+dForm.gstin.required=true;
+// Freezer toggle
+$$('input[name="needFreezer"]').forEach(r=>r.onchange=()=>$('#freezerBlock').classList.toggle('hide',dForm.needFreezer.value==='No'));
+$$('.fzc').forEach(c=>{
+  c.addEventListener('click',e=>{
+    const k=c.dataset.k;
+    if(e.target.dataset.d){
+      const q=Math.max(1,Math.min(10,(freezers[k]||1)+ +e.target.dataset.d));
+      freezers[k]=q;c.querySelector('.qty b').textContent=q;return;
+    }
+    if(c.classList.toggle('sel')) {freezers[k]=+c.querySelector('.qty b').textContent;$('#fzErr').style.display='none'}
+    else delete freezers[k];
+  });
+});
+
+function fd(){const d=new FormData(dForm);const o={};for(const[k,v]of d){o[k]=o[k]?o[k]+', '+v:v}return o}
+function buildReview(){
+  const o=fd();
+  const fz=o.needFreezer==='Yes'?Object.entries(freezers).map(([k,q])=>`${k} × ${q}`).join('<br>'):'Not required';
+  const docs=['panFile','aadhaarFile','gstFile','chqFile','shopPhoto'].filter(k=>(files[k]||[]).length).length;
+  const box=(t,s,rows)=>`<div class="rbox"><h4>${t}<a onclick="showStep(${s})">Edit</a></h4><dl>${rows.map(([a,b])=>`<dt>${a}</dt><dd>${b||'—'}</dd>`).join('')}</dl></div>`;
+  $('#reviewBox').innerHTML=
+    box('Basic Details',1,[['Owner',esc(o.ownerName)],['Shop',esc(o.shopName)],['Mobile',esc(o.mobile)],['Type',esc(o.outletType)+' · '+esc(o.dealerType)],['Location',esc(o.district)+' – '+esc(o.pin)]])+
+    box('Business',2,[['Experience',esc(o.years)],['Turnover',esc(o.turnover)],['Brands now',esc(o.brands)],['Potential',esc(o.potential)],['Interest',esc(o.cats)]])+
+    box('KYC & Banking',3,[['PAN',esc((o.pan||'').toUpperCase())],['Aadhaar','XXXX XXXX '+esc((o.aadhaar||'').slice(-4))],['GSTIN',o.gstReg==='Yes'?esc((o.gstin||'').toUpperCase()):'Not registered'],['Bank',esc(o.bank)+' · '+esc((o.ifsc||'').toUpperCase())],['Cheque #',esc(o.chq)],['Documents',docs+' uploaded']])+
+    box('Freezer',4,[['Requirement',fz],['Placement',esc(o.space)],['Install by',esc(o.installDate)],['Deposit',esc(o.depMode)]]);
+}
+function dealerSuccess(){
+  const o=fd(); const id=rid('DLR');
+  $('#dealerPanel').innerHTML=`<div class="success">
+    <div class="big">✓</div><h2>Application submitted!</h2>
+    <p style="color:var(--muted)">Thank you, ${esc(o.ownerName)}. Your dealer application for <b>${esc(o.shopName)}</b> has been received.</p>
+    <div class="refid">${id}</div>
+    <div class="timeline">
+      <div class="tl ok"><div class="d"></div><div><b>Application received</b><br><small>Just now</small></div></div>
+      <div class="tl now"><div class="d"></div><div><b>KYC & GST verification</b><br><small>1–2 working days</small></div></div>
+      <div class="tl"><div class="d"></div><div><b>Field visit by Area Sales Manager</b><br><small>Within 3 days</small></div></div>
+      <div class="tl"><div class="d"></div><div><b>Agreement & freezer installation</b><br><small>Within 7 days</small></div></div>
+    </div>
+    <p style="font-size:14px;color:var(--muted)">An SMS confirmation has been sent to +91 ${esc(o.mobile)}</p><br>
+    <button class="btn btn-primary" onclick="location.reload()">Start new application</button></div>`;
+}
+$('#fillBtn').onclick=()=>{
+  const v={ownerName:'Rajesh Menon',shopName:'Sree Krishna Bakery & Cool Bar',mobile:'9746674440',email:'rajesh@example.com',outletType:'Bakery',dealerType:'Retailer',address:'Near Bus Stand, M.C Road',district:'Ernakulam',pin:'683550',
+    years:'5–10 years',area:'450',turnover:'₹3–10 Lakh',footfall:'220',existingFreezers:'1',potential:'₹50,000–1 Lakh',peak:'₹1.2 Lakh / month',
+    pan:'ABCPM1234K',aadhaar:'123456789012',fssai:'11322001000123',gstin:'32ABCPM1234K1Z5',bank:'Federal Bank',ifsc:'FDRL0001234',acc:'12340100056789',chq:'004512',installDate:new Date(Date.now()+864e6).toISOString().slice(0,10),notes:'Corner shop near school — high evening demand.'};
+  Object.entries(v).forEach(([k,x])=>{if(dForm[k])dForm[k].value=x});
+  ['b1','b5','c2','c3'].forEach(i=>$('#'+i).checked=true);
+  files.panFile=[fakeFile('PAN_Rajesh.pdf')];files.aadhaarFile=[fakeFile('Aadhaar_Rajesh.pdf')];files.gstFile=[fakeFile('GST_Certificate.pdf')];files.chqFile=[fakeFile('Cancelled_Cheque.jpg','image/jpeg')];
+  ['panFile','aadhaarFile','gstFile','chqFile'].forEach(renderFiles);
+  const c=$('.fzc[data-k="300L Chest Freezer"]'); if(!c.classList.contains('sel')){c.classList.add('sel');freezers['300L Chest Freezer']=1}
+  $$('.field.err').forEach(f=>f.classList.remove('err'));
+  toast('Demo data filled for all steps');
+};
+
+/* ---------- Complaint ---------- */
+const cForm=$('#cmpForm'); let who='Customer';
+const CATS={
+  Customer:['Product quality / taste','Melted or refrozen product','Foreign particle found','Packaging damaged','Expired product sold','Overpriced (above MRP)','Health concern after consumption','Other'],
+  Distributor:['Short supply / quantity mismatch','Damaged in transit','Delayed delivery','Billing / invoice error','Scheme / claim settlement','Vehicle cold-chain issue','Other'],
+  Dealer:['Freezer not working','Freezer service delay','Stock not delivered','Damaged / leaking stock','Billing / credit note','Sales rep not visiting','Other']
+};
+function setWho(w){
+  who=w;
+  $$('#whoSeg button').forEach(b=>b.classList.toggle('on',b.dataset.w===w));
+  const partner=w!=='Customer';
+  $$('.partnerOnly',cForm).forEach(x=>x.classList.toggle('hide',!partner));
+  $$('.custOnly',cForm).forEach(x=>x.classList.toggle('hide',partner));
+  cForm.partnerCode.required=partner;cForm.firm.required=partner;
+  $('#codeLbl').textContent=w;
+  $('#catSel').innerHTML='<option value="">Select</option>'+CATS[w].map(c=>`<option>${c}</option>`).join('');
+}
+$$('#whoSeg button').forEach(b=>b.onclick=()=>setWho(b.dataset.w));
+setWho('Customer');
+cForm.desc.addEventListener('input',()=>{$('#dcount').textContent=cForm.desc.value.length});
+cForm.desc.maxLength=1000;
+$$('#cmpMode button').forEach(b=>b.onclick=()=>{
+  $$('#cmpMode button').forEach(x=>x.classList.toggle('on',x===b));
+  const t=b.dataset.m==='track';$('#trackBox').classList.toggle('hide',!t);cForm.classList.toggle('hide',t);
+});
+cForm.addEventListener('submit',e=>{
+  e.preventDefault(); if(!validate(cForm))return;
+  const d=Object.fromEntries(new FormData(cForm)); const id=rid('CMP');
+  const n=(files.cmpFiles||[]).length;
+  tickets[id]={...d,who,files:n,at:new Date()};
+  const eta=d.priority==='Urgent'?'4 hours':d.priority==='High'?'12 hours':'24 hours';
+  cForm.classList.add('hide');$('#cmpMode').classList.add('hide');
+  const s=document.createElement('div');s.className='success';s.id='cmpSuccess';
+  s.innerHTML=`<div class="big">✓</div><h2>Complaint registered</h2>
+    <p style="color:var(--muted)">${esc(d.name)} (${who}) · ${esc(d.category)} · ${n} attachment${n===1?'':'s'}</p>
+    <div class="refid">${id}</div>
+    <p>Our Quality team will contact you within <b>${eta}</b>.</p>
+    <p style="font-size:14px;color:var(--muted);margin-top:6px">Assigned to: ${who==='Customer'?'Consumer Care Desk':who==='Distributor'?'Distribution Ops Team':'Dealer Service Team'}</p><br>
+    <div class="btn-row" style="justify-content:center">
+      <button class="btn btn-ghost" onclick="goTrack('${id}')">Track this ticket</button>
+      <button class="btn btn-primary" onclick="newComplaint()">Raise another</button></div>`;
+  $('#cmpPanel').appendChild(s);
+});
+function newComplaint(){$('#cmpSuccess')?.remove();cForm.reset();files.cmpFiles=[];renderFiles('cmpFiles');setWho('Customer');$('#dcount').textContent=0;cForm.classList.remove('hide');$('#cmpMode').classList.remove('hide')}
+function goTrack(id){newComplaint();$('#cmpMode button[data-m="track"]').click();$('#trackId').value=id;trackTicket()}
+function trackTicket(){
+  const id=$('#trackId').value.trim().toUpperCase(); const t=tickets[id];
+  const steps=['Registered','Assigned to team','Under investigation','Resolved'];
+  const cur=t?1:2;
+  $('#trackRes').innerHTML=`<div class="rbox" style="margin-top:20px"><h4>${esc(id||'CMP-DEMO01')} <span style="font-family:Inter;font-size:12px;color:var(--mint)">● ${steps[cur]}</span></h4>
+    <dl><dt>Category</dt><dd>${esc(t?t.category:'Product quality / taste')}</dd><dt>Raised by</dt><dd>${esc(t?t.name+' ('+t.who+')':'Demo customer')}</dd><dt>Priority</dt><dd>${esc(t?t.priority:'Medium')}</dd></dl>
+    <div class="timeline" style="margin:14px 0 0">${steps.map((s,i)=>`<div class="tl ${i<cur?'ok':i===cur?'now':''}"><div class="d"></div><div><b>${s}</b></div></div>`).join('')}</div></div>`;
+}
+function demoComplaint(){
+  setWho('Distributor');
+  Object.entries({name:'Anil Varghese',mobile:'9876543210',email:'anil@example.com',partnerCode:'DST-1024',firm:'Varghese Agencies, Aluva',batch:'B2610-17',date:new Date().toISOString().slice(0,10),invoice:'INV-26-08812',qty:'12',
+    desc:'Received 12 cartons of family tubs in partially melted condition. Cold-chain seal on the vehicle was broken at delivery. Photos of cartons and invoice attached.'}).forEach(([k,v])=>cForm[k].value=v);
+  cForm.category.value='Damaged in transit';cForm.product.value='Tub';$('#p3').checked=true;
+  $('#dcount').textContent=cForm.desc.value.length;
+  files.cmpFiles=[fakeFile('carton_photo_1.jpg','image/jpeg'),fakeFile('carton_photo_2.jpg','image/jpeg'),fakeFile('invoice_08812.pdf')];renderFiles('cmpFiles');
+  $$('.field.err').forEach(f=>f.classList.remove('err'));toast('Demo distributor complaint filled');
+}
+
+/* ---------- Careers ---------- */
+const JOBS=[
+  {t:'Area Sales Manager',d:'Sales',l:'Thrissur',e:'3–6 yrs',ty:'Full-time',s:'Drive dealer acquisition and secondary sales across the district; manage distributors and freezer placement.'},
+  {t:'Sales Executive',d:'Sales',l:'Kozhikode',e:'1–3 yrs',ty:'Full-time',s:'Visit retail outlets, take orders, onboard new dealers and ensure visibility of Camerry products.'},
+  {t:'Quality Control Chemist',d:'Quality',l:'Ernakulam (Okkal)',e:'2–4 yrs',ty:'Full-time',s:'Microbiological & chemical testing of raw milk, mixes and finished products as per FSSAI norms.'},
+  {t:'Production Supervisor',d:'Production',l:'Ernakulam (Okkal)',e:'3–5 yrs',ty:'Full-time',s:'Supervise freezing, filling and hardening lines; manage shift workforce and output targets.'},
+  {t:'Refrigeration Technician',d:'Service',l:'Kottayam',e:'1–3 yrs · ITI',ty:'Full-time',s:'Install and service dealer freezers and visi-coolers; handle breakdown calls in the region.'},
+  {t:'Logistics Coordinator',d:'Logistics',l:'Ernakulam',e:'2–4 yrs',ty:'Full-time',s:'Plan cold-chain routes, coordinate vehicles and ensure on-time delivery to distributors.'},
+  {t:'Digital Marketing Intern',d:'Marketing',l:'Ernakulam',e:'Fresher',ty:'Internship',s:'Create social content for Instagram & YouTube, assist with campaigns and influencer collaborations.'},
+  {t:'Accounts Executive',d:'Finance',l:'Ernakulam',e:'1–3 yrs · B.Com',ty:'Full-time',s:'Handle dealer ledgers, GST filing support, credit notes and distributor claim settlements.'}
+];
+const uniq=k=>[...new Set(JOBS.map(j=>j[k]))];
+$('#jobDept').innerHTML+=uniq('d').map(x=>`<option>${x}</option>`).join('');
+$('#jobLoc').innerHTML+=uniq('l').map(x=>`<option>${x}</option>`).join('');
+function renderJobs(){
+  const q=$('#jobSearch').value.toLowerCase(),dp=$('#jobDept').value,lc=$('#jobLoc').value;
+  const list=JOBS.filter(j=>(!q||(j.t+j.s).toLowerCase().includes(q))&&(!dp||j.d===dp)&&(!lc||j.l===lc));
+  $('#jobList').innerHTML=list.length?list.map(j=>`<div class="job"><h3>${j.t}</h3>
+    <div class="meta"><span>🏷 ${j.d}</span><span>📍 ${j.l}</span><span>⏱ ${j.e}</span><span>${j.ty}</span></div>
+    <p>${j.s}</p><button class="btn btn-primary" onclick="openApply('${j.t}')">Apply now</button></div>`).join('')
+    :'<p style="color:var(--muted);grid-column:1/-1;text-align:center">No roles match your search.</p>';
+}
+['input','change'].forEach(e=>{$('#jobSearch').addEventListener(e,renderJobs);$('#jobDept').addEventListener(e,renderJobs);$('#jobLoc').addEventListener(e,renderJobs)});
+renderJobs();
+const jForm=$('#jobForm'); const applyHTML=$('#applyContent').innerHTML;
+function openApply(role){$('#applyRole').textContent=role;$('#applyModal').classList.add('open');document.body.style.overflow='hidden'}
+function closeApply(){$('#applyModal').classList.remove('open');document.body.style.overflow='';
+  if($('#jobSuccess')){$('#jobSuccess').remove();jForm.classList.remove('hide');$('#applyContent h2').classList.remove('hide');}
+  jForm.reset();files.resume=[];renderFiles('resume');$$('.field.err',jForm).forEach(f=>f.classList.remove('err'))}
+$('#applyModal').addEventListener('click',e=>{if(e.target.id==='applyModal')closeApply()});
+jForm.addEventListener('submit',e=>{
+  e.preventDefault();if(!validate(jForm))return;
+  const d=Object.fromEntries(new FormData(jForm)),id=rid('APP'),role=$('#applyRole').textContent;
+  jForm.classList.add('hide');
+  const s=document.createElement('div');s.className='success';s.id='jobSuccess';
+  s.innerHTML=`<div class="big">✓</div><h2>Application sent!</h2><p style="color:var(--muted)">Thanks ${esc(d.name)}, we've received your application for <b>${esc(role)}</b>.</p>
+  <div class="refid">${id}</div><p style="font-size:14px;color:var(--muted)">Our HR team (hr@nutricreams.in) will reach out if your profile is shortlisted.</p><br>
+  <button class="btn btn-primary" onclick="closeApply()">Done</button>`;
+  $('#applyContent').appendChild(s);
+});
+function demoJob(){
+  Object.entries({name:'Arya Nair',mobile:'9778632800',email:'arya.nair@example.com',loc:'Aluva',qual:'B.Tech / Food Tech',exp:'2–5 years',ctc:'28000',notice:'30 days',why:'I have 3 years of QC experience in dairy and love the Camerry brand.'}).forEach(([k,v])=>jForm[k].value=v);
+  files.resume=[fakeFile('Arya_Nair_Resume.pdf')];renderFiles('resume');$$('.field.err',jForm).forEach(f=>f.classList.remove('err'));toast('Demo applicant filled');
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeApply()});
+window.addEventListener('resize',()=>{if($('#sbar'))showStepBar()});
+function showStepBar(){const st=$('#stepper');if(!st)return;$('#sbar').style.width=((st.clientWidth-60)*(step-1)/(TOTAL-1))+'px'}
+
+route();
+</script>
+</body>
+</html>
